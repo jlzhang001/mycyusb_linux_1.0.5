@@ -11,6 +11,6 @@ put to github
 5. git commit -m "add readme"
 6. git log
 7. git remote add origin git@github.com:jlzhang001/mycyusb_linux_1.0.5.git # if remote rep is not exist, or exist
-8. git push -u origin master
+8. git push (-u origin master)
 
 
