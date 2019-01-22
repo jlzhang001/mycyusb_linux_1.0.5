@@ -3,3 +3,14 @@ then
 1. ./download_fx3 -i ../fx3_images/cyfxbulklpautoenum.img -t ram
 2. ./08_cybulk_my # note infile.txt is in to PC, outfile.txt is out to USB! write some words in outfile.txt, it will be back to infile.txt
 
+put to github
+1. git init
+2. git status
+3. git add *
+4. git status
+5. git commit -m "add readme"
+6. git log
+7. git remote add origin git@github.com:jlzhang001/mycyusb_linux_1.0.5.git # if remote rep is not exist, or exist
+8. git push -u origin master
+
+
