@@ -6,6 +6,7 @@
 
 #include <QtCore>
 #include <QtGui>
+#include <QtWidgets> //added by ZhangJianli
 
 #include <stdio.h>
 #include <unistd.h>

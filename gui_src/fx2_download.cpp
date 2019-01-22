@@ -1,5 +1,8 @@
 #include <QtCore>
 #include <QtGui>
+#include <QtWidgets>
+//#include <QProgressBar>
+//#include <QMainWindow>
 
 #include <stdio.h>
 #include <unistd.h>

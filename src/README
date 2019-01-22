@@ -1,0 +1,5 @@
+first plugin USB
+then
+1. ./download_fx3 -i ../fx3_images/cyfxbulklpautoenum.img -t ram
+2. ./08_cybulk_my # note infile.txt is in to PC, outfile.txt is out to USB! write some words in outfile.txt, it will be back to infile.txt
+

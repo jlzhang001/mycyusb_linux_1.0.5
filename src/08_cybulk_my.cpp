@@ -1,13 +1,4 @@
 /************************************************************************************************
- * Program Name		:	08_cybulk.cpp							*
- * Author		:	V. Radhakrishnan ( rk@atr-labs.com )				*
- * License		:	LGPL Ver 2.1							*
- * Copyright		:	Cypress Semiconductors Inc. / ATR-LABS				*
- * Date written		:	April 3, 2012							*
- * Modification Notes	:									*
- * 												*
- * This program is a CLI program that does a bulk transfer using the bulkloop.hex file		*
- * downloaded to the FX2 device									*
 \***********************************************************************************************/
 
 #include <stdio.h>
@@ -62,13 +53,14 @@ static void validate_inputs(void)
 
 static void *reader(void *arg1)
 {
+	printf("\nThis is reader!!!\n");
 	int r;
 	unsigned char buf[64];
 	int transferred = 0;
 
-	int fd_outfile, fd_infile;
-	fd_outfile = open("/home/jlzhang/Cypress/ttt.txt",O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR); 
-        if (-1 == fd_outfile) //
+	int fd_infile;
+	fd_infile = open("/home/jlzhang/Cypress/FX3_SDK_Linux_v1.3.4/mycyusb_linux_1.0.5/src/infile.txt",O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR); 
+        if (-1 == fd_infile) //
            {
 	      printf("open file failed!!!");	   
               return (void*)-1 ; 
@@ -78,8 +70,8 @@ static void *reader(void *arg1)
 	while (1) {
 		r = cyusb_bulk_transfer(h1, 0x81, buf, 64, &transferred, timeout * 1000);
 		if ( r == 0 ) {
-		   printf("%s", buf);
-                   r = write(fd_outfile, buf, transferred);
+		   printf("%s \n", buf);
+                   r = write(fd_infile, buf, transferred);
                    if (r < 0)
                        printf ("writefile_error returned %d\n", r);
 
@@ -93,19 +85,32 @@ static void *reader(void *arg1)
 		}
 
 	} 
-	close(fd_outfile);
+	close(fd_infile);
 
 }
 
 static void * writer(void *arg2)
 {
+	printf("\n This is writer!!!\n");
 	int r, nbr;
 	unsigned char buf[64];
 	int transferred = 0;
+        int fd_outfile;
+
+	fd_outfile = open("/home/jlzhang/Cypress/FX3_SDK_Linux_v1.3.4/mycyusb_linux_1.0.5/src/outfile.txt", O_RDONLY);
+	printf("fd_outfile=%d\n", fd_outfile);
+	if ( fd_outfile < 0 ) {
+             printf("open file failed!!!");
+	     return (void *) -1;
+	}
 
 	memset(buf,'\0',64);
-	while ( nbr = read(0,buf,64) ) {
+	//while ( nbr = read(0,buf,64) ) {
+	while ( nbr = read(fd_outfile,buf,64) ) {
+		printf("nbr= %d \n", nbr);
 		r = cyusb_bulk_transfer(h1, 0x01, buf, nbr, &transferred, timeout * 1000);
+                printf("\n cyusb_bulk_transfer \n");
+
 		if ( r == 0 ) {
 			memset(buf,'\0',64);
 			continue;
@@ -116,7 +121,7 @@ static void * writer(void *arg2)
 			return NULL;
 		}
 	} 
-
+        close(fd_outfile);
 }
 
 
@@ -135,7 +140,7 @@ int main(int argc, char **argv)
 				  print_usage(stdout, 0);
 			case 'v': /* -v or --version */
 				  printf("%s (Ver 1.0)\n",program_name);
-				  printf("Copyright (C) 2012 Cypress Semiconductors Inc. / ATR-LABS\n");
+				  printf("Write by Zhang Jianli@NAOC\n");
 				  exit(0);
 			case 't': /* -t or --timeout  */
 				  timeout_provided = 1;

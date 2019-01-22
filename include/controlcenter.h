@@ -5,7 +5,8 @@
 
 #ifndef CONTROLCENTERFORM_H
 #define CONTROLCENTER_H
-
+#define TRUE true  //added by ZhangJianli
+#define FALSE false //added by ZhangJianli
 #include "ui_controlcenter.h"
 
 class ControlCenter : public QWidget, public Ui::ControlCenter
